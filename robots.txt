@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ultradynamico.rubiworkshop.com/sitemap.xml

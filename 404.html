@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Ultradynamico Korea</title>
+<meta name="robots" content="noindex">
+<script>
+  // 하위 주소(/cava, /en/rose, /casings ...)를 원페이지 섹션으로 연결
+  // github.io 미리보기(/ultradynamico/)와 자체 도메인(/) 모두 동작
+  var base = location.hostname.slice(-10) === 'github.io' ? '/ultradynamico/' : '/';
+  var parts = decodeURIComponent(location.pathname).slice(base.length).replace(/\/$/, '').toLowerCase().split('/');
+  var lang = (parts[0] === 'en' || parts[0] === 'ja') ? parts.shift() + '/' : '';
+  var key = parts.join('/');
+  var alias = { 'rosé':'rose', 'rose-race':'rose', 'cava-race':'cava', 'brut-race':'brut', 'mars-race':'mars', 'marsala':'mars',
+                'casing':'casings', 'race':'casings', 'jff':'casings', 'rozzo':'casings', 'robusto':'casings', 'rim':'comte', 'rims':'comte', 'comté':'comte',
+                'pressure':'size', 'sizes':'size', 'size-guide':'size', 'about':'brand', 'history':'story', 'founders':'story',
+                'contact':'showroom', 'dealer':'dealers', 'lineup':'range', 'treads':'range', 'tires':'range', 'tyres':'range' };
+  var map = { brand:1, range:1, cava:1, brut:1, rose:1, mars:1, casings:1, comte:1, size:1, story:1, showroom:1, dealers:1 };
+  key = alias[key] || key;
+  location.replace(base + lang + (map[key] ? '#' + key : ''));
+</script>
+<style>body{background:#fff}@media (prefers-color-scheme:dark){body{background:#101114}}</style>
+</head>
+<body></body>
+</html>
