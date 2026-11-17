@@ -2,6 +2,16 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JL1KFMCJLL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JL1KFMCJLL', { content_group: document.documentElement.lang || 'ko' });
+  var GA_ID = 'G-JL1KFMCJLL'; // used by the shared GA4 event script at the end of the page
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Ultradynamico 코리아 | 울트라다이나미코 자전거 타이어</title>
 <meta name="description" content="Ultradynamico(울트라다이나미코)는 울트라로맨스 론과 팻이 만든 미국의 프리미엄 자전거 타이어 브랜드입니다. 카바, 브뤼, 로제, 마르스 네 가지 트레드와 레이스, JFF, 로쪼, 로부스토 네 가지 케이싱을 서울 루비워크샵에서 만나보세요.">
@@ -1147,6 +1157,46 @@ table.size tr.grp th,table.size tr.grp td{border-top:1px solid var(--fg)}
     if (e.key === 'ArrowLeft') lb.querySelector('.pv').click();
     if (e.key === 'ArrowRight') lb.querySelector('.nx').click();
   });
+})();
+</script>
+<script>
+/* GA4 events (shared across Rubi Company brand sites). Sends nothing while GA_ID is empty.
+   section_view, consulting_click, dealer_click, language_switch, social_click, image_view */
+(function(){
+  var lang = document.documentElement.lang || 'ko';
+  function track(name, params){ if (window.GA_ID && typeof gtag === 'function') gtag('event', name, params || {}); }
+  function where(a){
+    if (a.getAttribute('data-ga')) return a.getAttribute('data-ga');
+    if (a.closest('header')) return 'header';
+    if (a.closest('#menu, .menu')) return 'menu';
+    if (a.closest('footer')) return 'footer';
+    var s = a.closest('section[id], [data-sec][id]');
+    return s ? s.id : 'other';
+  }
+  if ('IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){
+      var id = e.target.id;
+      if (!e.isIntersecting || seen[id] || !window.GA_ID) return;
+      seen[id] = 1; track('section_view', { section_name: id });
+    }); }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section[id], [data-sec][id]').forEach(function(s){ if (s.id !== 'top') io.observe(s); });
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target, a = t.closest && t.closest('a');
+    if (a) {
+      var href = a.getAttribute('href') || '';
+      if (/rubiworkshop\.com\/models/.test(href)) return track('consulting_click', { link_location: where(a) });
+      if (/rubisupply\.com/.test(href)) return track('dealer_click', { link_location: where(a) });
+      var to = a.getAttribute('hreflang') || a.getAttribute('data-lang');
+      if (to && a.closest('.lang')) { if (to !== lang) track('language_switch', { from: lang, to: to }); return; }
+      var m = href.match(/instagram|kakao|youtube/);
+      if (m) track('social_click', { network: m[0], link_location: where(a) });
+      return;
+    }
+    var g = t.closest && t.closest('[data-gallery]');
+    if (g && t.closest('figure, .ph')) track('image_view', { gallery: g.getAttribute('data-gallery') || g.id || 'gallery' });
+  }, true);
 })();
 </script>
 </body>
